@@ -1,4 +1,5 @@
 package com.balamir.paymybuddy.model;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,22 +7,26 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
-
+@Table(name = "transaction")
+public class Transaction {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Column(name = "sender")
+    private Integer sender;
+
+    @Column(name = "receiver")
+    private Integer receiver;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -31,21 +36,16 @@ public class User {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "email_address")
-    private String email;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "charge")
+    private BigDecimal charge;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "description")
+    private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonIgnore
-    private Set<Friends> friends;
-
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
-    private Account account;
-
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TransactionStatus status = TransactionStatus.INITIATED;
 }

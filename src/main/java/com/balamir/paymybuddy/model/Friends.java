@@ -3,6 +3,7 @@ package com.balamir.paymybuddy.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,31 +15,30 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@RequiredArgsConstructor
 @Entity
+@Table(name = "friends")
 public class Friends {
     @Id
     @GeneratedValue
     private Integer id;
 
+    @ManyToMany
+    @JoinColumn(name = "user_id")
+    private User userID;
+
+    @ManyToMany
+    @JoinColumn(name = "friend_id")
+    private Set<Friends> friends;
+
     @CreatedDate
-    @Column(name = "Created_At")
+    @Column(name = "created_at")
     private Instant createdAt;
 
     @LastModifiedDate
-    @Column(name = "Updated_At")
+    @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "Email_Address")
-    private String email;
-
-    @Column(name = "Password")
-    private String password;
-
-    @Column(name = "User_Name")
-    private String userName;
-
-    @ManyToMany
-    private Set<Friends> friends;
 
 
 }

@@ -1,4 +1,5 @@
 package com.balamir.paymybuddy.model;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,22 +7,24 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "user")
-public class User {
-
+@Table(name = "account")
+public class Account {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User userID;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -31,21 +34,7 @@ public class User {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "email_address")
-    private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "user_name")
-    private String userName;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonIgnore
-    private Set<Friends> friends;
-
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
-    private Account account;
-
-
+    @Column(name = "balance")
+    private BigDecimal balance;
 }
+

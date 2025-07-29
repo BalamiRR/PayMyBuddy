@@ -23,11 +23,11 @@ public class Friends {
     @GeneratedValue
     private Integer id;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User userID;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "friend_id")
     private Set<Friends> friends;
 

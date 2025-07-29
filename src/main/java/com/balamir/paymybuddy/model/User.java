@@ -46,6 +46,4 @@ public class User {
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
     private Account account;
-
-
 }

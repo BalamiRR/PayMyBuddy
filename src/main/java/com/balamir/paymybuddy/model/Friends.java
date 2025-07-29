@@ -29,7 +29,7 @@ public class Friends {
 
     @ManyToOne
     @JoinColumn(name = "friend_id")
-    private Set<Friends> friends;
+    private User friend;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -38,7 +38,4 @@ public class Friends {
     @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-
-
 }

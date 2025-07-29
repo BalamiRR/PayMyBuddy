@@ -22,11 +22,13 @@ public class Transaction {
     @GeneratedValue
     private Integer id;
 
-    @Column(name = "sender")
-    private Integer sender;
+    @ManyToOne
+    @JoinColumn(name = "sender", referencedColumnName = "id")
+    private User sender;
 
-    @Column(name = "receiver")
-    private Integer receiver;
+    @ManyToOne
+    @JoinColumn(name = "receiver", referencedColumnName = "id")
+    private User receiver;
 
     @CreatedDate
     @Column(name = "created_at")

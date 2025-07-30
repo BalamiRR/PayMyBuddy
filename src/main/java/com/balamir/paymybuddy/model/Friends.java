@@ -10,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -25,7 +24,7 @@ public class Friends {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userID;
+    private User userId;
 
     @ManyToOne
     @JoinColumn(name = "friend_id")

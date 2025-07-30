@@ -1,5 +1,6 @@
 package com.balamir.paymybuddy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,8 @@ public class Account {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User userID;
+    @JsonIgnore
+    private User userId;
 
     @CreatedDate
     @Column(name = "created_at")

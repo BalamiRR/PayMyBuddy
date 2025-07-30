@@ -31,7 +31,7 @@ public class User {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "email_address")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
@@ -40,10 +40,11 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId")
     @JsonIgnore
     private Set<Friends> friends;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "userId",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Account account;
 }

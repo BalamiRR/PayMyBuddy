@@ -22,13 +22,11 @@ public class Transaction {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "sender", referencedColumnName = "id")
-    private User sender;
+    @Column(name = "sender")
+    private Integer sender;
 
-    @ManyToOne
-    @JoinColumn(name = "receiver", referencedColumnName = "id")
-    private User receiver;
+    @Column(name = "receiver")
+    private Integer receiver;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -48,6 +46,6 @@ public class Transaction {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name ="status", nullable = false)
     private TransactionStatus status = TransactionStatus.INITIATED;
 }

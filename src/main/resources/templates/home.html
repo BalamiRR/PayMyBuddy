@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <title>PAY MY BUDDY</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+       .nav-link {
+        color: black !important;
+        transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #007bff !important; /* Bootstrap mavi */
+        }
+
+        .nav-link.active {
+            color: black !important;
+            border-bottom: 2px solid #007bff;
+            background-color: transparent !important;
+        }
+    </style>
+</head>
+
+    <body class="d-flex flex-column min-vh-100 p-3 mb-2 bg-light text-black">
+        <div id="home" class="container main-container">
+            <nav style="clear: right;">
+                <div class="d-flex align-items-center">
+                    <!-- Sol taraf: Pay My Buddy -->
+                    <a class="navbar-brand text-black fw-bold me-auto">Pay My Buddy</a>
+                </div>
+                <div class="d-flex justify-content-end align-items-center gap-2 border-bottom py-2">
+                    <a class="nav-item nav-link" id="nav-account-tab" data-toggle="tab" href="#nav-account" role="tab"
+                       aria-controls="nav-account" aria-selected="true">Transfer</a>
+                    <a class="nav-item nav-link" id="nav-transfer-tab" data-toggle="tab" href="#nav-transfer" role="tab"
+                       aria-controls="nav-transfer" aria-selected="false">Profile</a>
+                    <a class="nav-item nav-link" id="nav-connect-tab" data-toggle="tab" href="#nav-connect"
+                       role="tab" aria-controls="nav-connect" aria-selected="false">Add a Friend</a>
+                    <button class="btn btn-primary text-white font-weight-bold">Sign Up</button>
+                </div>
+            </nav>
+        </div>
+        <footer class="mt-auto text-center">
+            <p>PayMyBuddy © 2025 - 2026</p>
+        </footer>
+    </body>
+</html>

@@ -11,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,5 +40,8 @@ public class Account {
 
     @Column(name = "balance")
     private BigDecimal balance;
+
+    @OneToMany
+    private List<Transaction> transactions = new ArrayList<>();
 }
 

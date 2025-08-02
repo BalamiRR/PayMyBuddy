@@ -48,4 +48,10 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(name ="status", nullable = false)
     private TransactionStatus status = TransactionStatus.INITIATED;
+
+    //TODO add in mysql !!
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+
 }

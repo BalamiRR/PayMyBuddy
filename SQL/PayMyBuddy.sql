@@ -51,5 +51,7 @@ CREATE TABLE `transaction` (
   `status` ENUM('INITIATED', 'PROCESSING', 'SUCCESS', 'FAILED') DEFAULT 'INITIATED',
   `sender` INT DEFAULT NULL,
   `receiver` INT DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `account_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_transaction_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

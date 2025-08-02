@@ -1,6 +1,7 @@
 ## PayMyBuddy
 
 ### Data Model
-<img width="384" height="332" alt="image" src="https://github.com/user-attachments/assets/f34e2a38-8c53-488b-a5f9-4f8dfd404d0b" />
+<img width="761" height="667" alt="image" src="https://github.com/user-attachments/assets/9182e943-5e32-4650-bd5b-2cbd6f686184" />
+
 
 

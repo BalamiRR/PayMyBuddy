@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.Set;
@@ -15,12 +16,13 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "user")
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @CreatedDate

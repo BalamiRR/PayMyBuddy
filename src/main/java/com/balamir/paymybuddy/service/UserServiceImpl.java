@@ -5,6 +5,7 @@ import com.balamir.paymybuddy.model.dto.UserDto;
 import com.balamir.paymybuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User findByEmail(String email) {
@@ -24,7 +26,10 @@ public class UserServiceImpl implements UserService {
             User newUser = new User();
             newUser.setUserName(userDto.getUserName());
             newUser.setEmail(userDto.getEmail());
-            newUser.setPassword(userDto.getPassword());
+
+            String encodedPassword = passwordEncoder.encode(userDto.getPassword());
+            newUser.setPassword(encodedPassword);
+
             userRepository.save(newUser);
         }
     }

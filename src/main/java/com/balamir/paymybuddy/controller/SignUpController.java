@@ -29,29 +29,23 @@ public class SignUpController {
 
     @PostMapping
     public String signUpUser(@ModelAttribute UserDto userDto, Model model, RedirectAttributes redirectAttributes){
-        log.info("Sign-up request received for email: {}", userDto.getEmail());
+        String email = userDto.getEmail();
+        log.info("Sign-up request received for email: {}", email);
 
-        String signUpError = null;
-        User existUser = userService.findByEmail(userDto.getEmail());
-
-        if(existUser != null){
-            signUpError = "The email already exists: " + userDto.getEmail();
-            log.warn("Sign-up failed: email already registered - {}", userDto.getEmail());
-        }
-        if(signUpError == null){
-            log.info("Email is available, attempting to save new user: {}", userDto.getEmail());
-            userServiceImpl.save(userDto);
+        User existUser = userService.findByEmail(email);
+        if (existUser != null) {
+            log.warn("Sign-up failed: email already registered - {}", email);
+            model.addAttribute("signUpError", true);
+            return "signup";
         }
 
-        if(signUpError == null) {
-            redirectAttributes.addFlashAttribute("message", "You have successfully signed up, please login.");
-            log.info("Sign-up successful for user: {}", userDto.getEmail());
-            return "redirect:/login";
-        } else {
-            model.addAttribute("signupError", true);
-            log.info("Sign-up failed for user: {}", userDto.getEmail());
-        }
-        return "signup";
+        log.info("Email is available, attempting to save new user: {}", email);
+        userServiceImpl.save(userDto);
+
+        redirectAttributes.addFlashAttribute("message", "You've successfully signed up, please login.");
+
+        log.info("Sign-up successful for user: {}", email);
+        return "redirect:/login";
     }
 
 }

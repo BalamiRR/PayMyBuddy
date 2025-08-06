@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/login")
 public class LoginController {
     @GetMapping
-    public String signUp(){
+    public String loginPage(){
         return "login";
     }
 

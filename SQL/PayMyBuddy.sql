@@ -4,12 +4,13 @@ USE `payMyBuddy`;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `created_at` DATETIME(6) NOT NULL,
   `updated_at` DATETIME(6) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `user_name` varchar(255) DEFAULT NULL,
+  `status` BOOLEAN DEFAULT TRUE,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueEmail` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

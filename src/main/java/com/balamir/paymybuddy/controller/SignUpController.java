@@ -38,12 +38,10 @@ public class SignUpController {
             model.addAttribute("signUpError", true);
             return "signup";
         }
-
         log.info("Email is available, attempting to save new user: {}", email);
         userServiceImpl.save(userDto);
 
         redirectAttributes.addFlashAttribute("message", "You've successfully signed up, please login.");
-
         log.info("Sign-up successful for user: {}", email);
         return "redirect:/login";
     }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+  <title>Navbar</title>
+  <style>
+    html, body {
+        height: 100%;
+    }
+    .nav-link {
+        color: black !important;
+        transition: color 0.2s ease;
+    }
+    .nav-link:hover {
+        color: #007bff !important;
+    }
+    .nav-link.active {
+        color: black !important;
+        border-bottom: 2px solid #007bff;
+        background-color: transparent !important;
+    }
+  </style>
+</head>
+  <body class="d-flex flex-column min-vh-100 p-3 mb-2 bg-light text-black">
+    <div class="container" th:fragment="topbar">
+      <nav style="clear: right;">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand fw-bold me-auto" style="color:black; font-weight:bold;" th:href="@{/home}">Pay My Buddy</a>
+        </div>
+        <div class="d-flex justify-content-end align-items-center gap-2 border-bottom py-2">
+          <a th:href="@{/transfer}" th:class="${active=='transfer.html'?'nav-item nav-link active':'nav-item nav-link'}">Transfer</a>
+          <a th:href="@{/profile}" th:class="${active=='profile.html'?'nav-item nav-link active':'nav-item nav-link'}">Profile</a>
+          <a th:href="@{/friend}" th:class="${active=='friend.html'?'nav-item nav-link active':'nav-item nav-link'}">Add a Friend</a>
+          <form th:action="@{/logout}" method="POST" class="m-0">
+            <button id="logout-btn" type="submit" class="btn btn-primary text-white font-weight-bold">Log Out</button>
+          </form>
+        </div>
+      </nav>
+    </div>
+  </body>
+</html>

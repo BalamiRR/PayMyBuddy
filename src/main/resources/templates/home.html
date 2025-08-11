@@ -1,50 +1,77 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <title>PAY MY BUDDY</title>
-    <style>
-        html, body {
-            height: 100%;
-        }
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <title>PAY MY BUDDY</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
 
-       .nav-link {
-        color: black !important;
-        transition: color 0.2s ease;
-        }
-
-        .nav-link:hover {
-            color: #007bff !important; /* Bootstrap mavi */
-        }
-
-        .nav-link.active {
+           .nav-link {
             color: black !important;
-            border-bottom: 2px solid #007bff;
-            background-color: transparent !important;
-        }
-    </style>
-</head>
+            transition: color 0.2s ease;
+            }
 
+            .nav-link:hover {
+                color: #007bff !important; /* Bootstrap mavi */
+            }
+
+            .nav-link.active {
+                color: black !important;
+                border-bottom: 2px solid #007bff;
+                background-color: transparent !important;
+            }
+        </style>
+    </head>
     <body class="d-flex flex-column min-vh-100 p-3 mb-2 bg-light text-black">
+    <div th:replace="~{/navbar::topbar}"></div>
         <div id="home" class="container main-container">
-            <nav style="clear: right;">
-                <div class="d-flex align-items-center">
-                    <a class="navbar-brand text-black fw-bold me-auto">Pay My Buddy</a>
+            <div class="tab-pane fade" id="nav-transfer" role="tabpanel" aria-labelledby="nav-transfer-tab">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="newFriend">
+                            <button type="button" class="btn btn-info float-right mb-4" onclick="showFriendForm()">Add Connection</button>
+                        </div>
+                        <div id="friend" style="display: none;">
+                            <form class="form-group" th:action="@{/friend}" method="POST">
+                                <div class="row mb-2">
+                                    <div class="col-md-8">
+                                        <input type="hidden" name="user"
+                                               id="user">
+                                        <div>
+                                            <label for="friendEmail">Connect To <span class="text-muted">(Example: username@domain.com)</span> </label>
+                                            <input class="form-control" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="friendEmail" name="friendEmail" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 pl-2" style="margin-top: 2em;">
+                                        <button type="submit" class="btn btn-primary" value="saveConnection">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr class="mb-3">
+                        </div>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-end align-items-center gap-2 border-bottom py-2">
-                    <a class="nav-item nav-link" id="nav-account-tab" data-toggle="tab" href="#nav-account" role="tab"
-                       aria-controls="nav-account" aria-selected="true">Transfer</a>
-                    <a class="nav-item nav-link" id="nav-transfer-tab" data-toggle="tab" href="#nav-transfer" role="tab"
-                       aria-controls="nav-transfer" aria-selected="false">Profile</a>
-                    <a class="nav-item nav-link" id="nav-connect-tab" data-toggle="tab" href="#nav-connect"
-                       role="tab" aria-controls="nav-connect" aria-selected="false">Add a Friend</a>
-                    <button class="btn btn-primary text-white font-weight-bold">Log Out</button>
-                </div>
-            </nav>
+            </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+        <script th:src="@{/js/popper.min.js}"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+        <script>
+            function showFriendForm() {
+                let form = document.getElementById("friend");
+                if (form.style.display === "none") {
+                    form.style.display = "block";
+                } else {
+                    form.style.display = "none";
+                }
+            }
+        </script>
         <footer class="mt-auto text-center">
             <p>PayMyBuddy © 2025 - 2026</p>
         </footer>

@@ -1,4 +1,4 @@
-package com.balamir.paymybuddy.config;
+package com.balamir.paymybuddy.service.authentication;
 
 import com.balamir.paymybuddy.model.User;
 import com.balamir.paymybuddy.repository.UserRepository;
@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override

@@ -10,16 +10,13 @@
             html, body {
                 height: 100%;
             }
-
-           .nav-link {
-            color: black !important;
-            transition: color 0.2s ease;
+            .nav-link {
+                color: black !important;
+                transition: color 0.2s ease;
             }
-
             .nav-link:hover {
-                color: #007bff !important; /* Bootstrap mavi */
+                color: #007bff !important;
             }
-
             .nav-link.active {
                 color: black !important;
                 border-bottom: 2px solid #007bff;
@@ -34,14 +31,13 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="newFriend">
-                            <button type="button" class="btn btn-info float-right mb-4" onclick="showFriendForm()">Add Connection</button>
+                            <button type="button" class="btn btn-info float-right mb-4" onclick="showFriendForm()">Add a Friend</button>
                         </div>
                         <div id="friend" style="display: none;">
                             <form class="form-group" th:action="@{/friend}" method="POST">
                                 <div class="row mb-2">
                                     <div class="col-md-8">
-                                        <input type="hidden" name="user"
-                                               id="user">
+                                        <input type="hidden" name="user" id="user">
                                         <div>
                                             <label for="friendEmail">Connect To <span class="text-muted">(Example: username@domain.com)</span> </label>
                                             <input class="form-control" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" id="friendEmail" name="friendEmail" required>
@@ -58,20 +54,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
-        <script th:src="@{/js/popper.min.js}"></script>
-        <script th:src="@{/js/bootstrap.min.js}"></script>
-        <script>
-            function showFriendForm() {
-                let form = document.getElementById("friend");
-                if (form.style.display === "none") {
-                    form.style.display = "block";
-                } else {
-                    form.style.display = "none";
-                }
-            }
-        </script>
         <footer class="mt-auto text-center">
             <p>PayMyBuddy © 2025 - 2026</p>
         </footer>

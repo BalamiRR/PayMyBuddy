@@ -39,7 +39,7 @@ public class FriendController {
         User user = userService.findByEmail(email);
         String findEmail = friendDto.getFriendEmail();
 
-        boolean showModal = true; // modal'ın kapanmaması için
+        boolean showModal = true;
         String errorMessage = null;
         boolean success = false;
 

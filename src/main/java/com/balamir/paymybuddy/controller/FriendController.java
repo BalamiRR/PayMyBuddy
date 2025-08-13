@@ -15,38 +15,52 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/friend")
+@RequestMapping("/contact")
 public class FriendController {
-    private UserService userService;
-    private FriendsService friendsService;
+    private final UserService userService;
+    private final FriendsService friendsService;
+
+    @GetMapping
+    public String contactPage(Model model, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        List<User> myFriends = friendsService.findAllMyFriends(user.getId());
+        model.addAttribute("active", "contact.html");
+        model.addAttribute("newFriend", new FriendDto());
+        model.addAttribute("friendList", myFriends == null ? new ArrayList<>() : myFriends);
+        return "contact";
+    }
 
     @PostMapping
     public String addFriend(Authentication authentication, @ModelAttribute("newFriend") FriendDto friendDto, Model model){
         String email = authentication.getName();
         User user = userService.findByEmail(email);
-        int errorType = 0;
         boolean success = false;
 
         String findEmail = friendDto.getFriendEmail();
         User friendToBe = userService.findByEmail(findEmail);
 
-        if(friendToBe == null || friendToBe.getAccount() == null){
-            log.error("The friend is the user OR has no account yet: {}", email);
-            errorType = 4;
-        } else {
+        if (friendToBe != null && friendToBe.getAccount() != null) {
             Friends friends = new Friends();
-            friends.setUserId(user);
+            friends.setUser(user);
             friends.setFriend(friendToBe);
             friendsService.save(friends);
+            success = true;
+        } else {
+            log.error("The friend is the user OR has no account yet: {}", email);
         }
 
+        User userA = userService.findByEmail(authentication.getName());
+        List<User> myFriends = friendsService.findAllMyFriends(userA.getId());
+        model.addAttribute("friendList", myFriends);
+        model.addAttribute("newFriend", new FriendDto());
         model.addAttribute("success", success);
-        model.addAttribute("errorType", errorType);
-
-        return "result";
+        return "contact";
     }
 
 }

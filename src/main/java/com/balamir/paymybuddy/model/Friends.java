@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
@@ -16,6 +17,7 @@ import java.time.Instant;
 @ToString
 @RequiredArgsConstructor
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "friends")
 public class Friends {
     @Id
@@ -24,7 +26,7 @@ public class Friends {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "friend_id")

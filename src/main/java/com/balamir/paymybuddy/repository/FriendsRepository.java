@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FriendsRepository extends JpaRepository <Friends, Integer> {
     Friends findByFriend_Id(int id);
+
 }

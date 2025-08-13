@@ -43,9 +43,6 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-//    @Column(name = "status")
-//    private Boolean status;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Set<Friends> friends = new HashSet<>();

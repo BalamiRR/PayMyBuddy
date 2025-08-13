@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -42,14 +43,14 @@ public class User {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "status")
-    private Boolean status;
+//    @Column(name = "status")
+//    private Boolean status;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
-    private Set<Friends> friends;
+    private Set<Friends> friends = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "userId",  cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user",  cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Account account;
 }

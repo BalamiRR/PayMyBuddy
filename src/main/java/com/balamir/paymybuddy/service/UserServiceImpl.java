@@ -1,5 +1,6 @@
 package com.balamir.paymybuddy.service;
 
+import com.balamir.paymybuddy.model.Account;
 import com.balamir.paymybuddy.model.User;
 import com.balamir.paymybuddy.model.dto.UserDto;
 import com.balamir.paymybuddy.repository.UserRepository;
@@ -7,6 +8,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @RequiredArgsConstructor
 @Service
@@ -30,6 +34,13 @@ public class UserServiceImpl implements UserService {
             String encodedPassword = passwordEncoder.encode(userDto.getPassword());
             newUser.setPassword(encodedPassword);
 
+            Account account = new Account();
+            account.setUser(newUser);
+            account.setBalance(BigDecimal.ZERO);
+            account.setCreatedAt(Instant.now());
+            account.setUpdatedAt(Instant.now());
+
+            newUser.setAccount(account);
             userRepository.save(newUser);
         }
     }

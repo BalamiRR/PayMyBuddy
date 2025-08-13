@@ -22,11 +22,6 @@ public class FriendsServiceImpl implements FriendsService {
     }
 
     @Override
-    public Friends findByFriend_Id(int id) {
-        return friendsRepository.findByFriend_Id(id);
-    }
-
-    @Override
     public List<User> findAllMyFriends(int id) {
         List<User> friendSet = new ArrayList<>();
         Optional<User> user = userRepository.findById(id);
@@ -42,6 +37,17 @@ public class FriendsServiceImpl implements FriendsService {
             }
         }
         return friendSet;
+    }
+
+    @Override
+    public boolean isAlreadyFriend(int userId, int friendId) {
+        List<User> myFriends = findAllMyFriends(userId);
+        return myFriends.stream().anyMatch(f -> f.getId().equals(friendId));
+    }
+
+    @Override
+    public void deleteFriendship(int userId, int friendId) {
+        friendsRepository.deleteByUserIdAndFriendId(userId, friendId);
     }
 
 }

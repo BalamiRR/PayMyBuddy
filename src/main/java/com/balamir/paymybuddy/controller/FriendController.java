@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,27 +37,50 @@ public class FriendController {
     public String addFriend(Authentication authentication, @ModelAttribute("newFriend") FriendDto friendDto, Model model){
         String email = authentication.getName();
         User user = userService.findByEmail(email);
+        String findEmail = friendDto.getFriendEmail();
+
+        boolean showModal = true; // modal'ın kapanmaması için
+        String errorMessage = null;
         boolean success = false;
 
-        String findEmail = friendDto.getFriendEmail();
-        User friendToBe = userService.findByEmail(findEmail);
-
-        if (friendToBe != null && friendToBe.getAccount() != null) {
-            Friends friends = new Friends();
-            friends.setUser(user);
-            friends.setFriend(friendToBe);
-            friendsService.save(friends);
-            success = true;
+        if(user.getEmail().equalsIgnoreCase(findEmail)){
+            errorMessage = "You cannot add yourself as a friend.";
         } else {
-            log.error("The friend is the user OR has no account yet: {}", email);
+            User friendToBe = userService.findByEmail(findEmail);
+            if (friendToBe == null) {
+                model.addAttribute("errorMessage", "could not find any user or you can not add yourself.");
+                model.addAttribute("showModal", true);
+            }
+            if(friendToBe != null && friendToBe.getAccount() != null){
+                boolean alreadyFriend = friendsService.isAlreadyFriend(user.getId(), friendToBe.getId());
+                if(alreadyFriend){
+                    errorMessage = "This user is already your friend.";
+                } else {
+                    Friends friends = new Friends();
+                    friends.setUser(user);
+                    friends.setFriend(friendToBe);
+                    friendsService.save(friends);
+                    success = true;
+                    showModal = false;
+                }
+            } else {
+                errorMessage = "This user does not exist or has no account yet.";
+            }
         }
 
-        User userA = userService.findByEmail(authentication.getName());
-        List<User> myFriends = friendsService.findAllMyFriends(userA.getId());
+        List<User> myFriends = friendsService.findAllMyFriends(user.getId());
         model.addAttribute("friendList", myFriends);
         model.addAttribute("newFriend", new FriendDto());
         model.addAttribute("success", success);
+        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("showModal", showModal);
         return "contact";
     }
 
+    @PostMapping("/delete")
+    public String deleteFriend(Authentication authentication, @RequestParam("friendId") int friendId) {
+        User user = userService.findByEmail(authentication.getName());
+        friendsService.deleteFriendship(user.getId(), friendId);
+        return "redirect:/contact";
+    }
 }

@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface FriendsService {
     void save(Friends friends);
-    Friends findByFriend_Id(int id);
     List<User> findAllMyFriends(int id);
+    void deleteFriendship(int userId, int friendId);
+    boolean isAlreadyFriend(int userId, int friendId);
 
 }

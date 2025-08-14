@@ -45,6 +45,7 @@ public class FriendController {
 
         if(user.getEmail().equalsIgnoreCase(findEmail)){
             errorMessage = "You cannot add yourself as a friend.";
+            log.error("You cannot add yourself as a friend.");
         } else {
             User friendToBe = userService.findByEmail(findEmail);
             if (friendToBe == null) {
@@ -55,6 +56,7 @@ public class FriendController {
                 boolean alreadyFriend = friendsService.isAlreadyFriend(user.getId(), friendToBe.getId());
                 if(alreadyFriend){
                     errorMessage = "This user is already your friend.";
+                    log.error("This user is already your friend");
                 } else {
                     Friends friends = new Friends();
                     friends.setUser(user);
@@ -65,6 +67,7 @@ public class FriendController {
                 }
             } else {
                 errorMessage = "This user does not exist or has no account yet.";
+                log.error("This user does not exist or has no account yet.");
             }
         }
 

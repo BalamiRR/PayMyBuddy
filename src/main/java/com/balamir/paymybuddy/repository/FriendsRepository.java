@@ -10,11 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FriendsRepository extends JpaRepository <Friends, Integer> {
-
     @Transactional
     @Modifying
     @Query("DELETE FROM Friends f WHERE (f.user.id = :userId AND f.friend.id = :friendId) " +
             "OR (f.user.id = :friendId AND f.friend.id = :userId)")
     void deleteByUserIdAndFriendId(@Param("userId") int userId, @Param("friendId") int friendId);
-
 }

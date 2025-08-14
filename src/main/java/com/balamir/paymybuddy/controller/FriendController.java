@@ -26,55 +26,44 @@ public class FriendController {
     @GetMapping
     public String contactPage(Model model, Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
-        List<User> myFriends = friendsService.findAllMyFriends(user.getId());
-        model.addAttribute("active", "contact.html");
-        model.addAttribute("newFriend", new FriendDto());
-        model.addAttribute("friendList", myFriends == null ? new ArrayList<>() : myFriends);
-        return "contact";
+        return buildContactPage(model, user, null, false);
     }
 
     @PostMapping
-    public String addFriend(Authentication authentication, @ModelAttribute("newFriend") FriendDto friendDto, Model model){
-        String email = authentication.getName();
-        User user = userService.findByEmail(email);
-        String findEmail = friendDto.getFriendEmail();
+    public String addFriend(Authentication authentication, @ModelAttribute("newFriend") FriendDto friendDto, Model model) {
+        User user = userService.findByEmail(authentication.getName());
+        String targetEmail = friendDto.getFriendEmail();
 
-        boolean showModal = true;
-        String errorMessage = null;
-        boolean success = false;
-
-        if(user.getEmail().equalsIgnoreCase(findEmail)){
-            errorMessage = "You cannot add yourself as a friend.";
+        if (user.getEmail().equalsIgnoreCase(targetEmail)) {
             log.error("You cannot add yourself as a friend.");
-        } else {
-            User friendToBe = userService.findByEmail(findEmail);
-            if (friendToBe == null) {
-                model.addAttribute("errorMessage", "could not find any user or you can not add yourself.");
-                model.addAttribute("showModal", true);
-            }
-            if(friendToBe != null && friendToBe.getAccount() != null){
-                boolean alreadyFriend = friendsService.isAlreadyFriend(user.getId(), friendToBe.getId());
-                if(alreadyFriend){
-                    errorMessage = "This user is already your friend.";
-                    log.error("This user is already your friend");
-                } else {
-                    Friends friends = new Friends();
-                    friends.setUser(user);
-                    friends.setFriend(friendToBe);
-                    friendsService.save(friends);
-                    success = true;
-                    showModal = false;
-                }
-            } else {
-                errorMessage = "This user does not exist or has no account yet.";
-                log.error("This user does not exist or has no account yet.");
-            }
+            return buildContactPage(model, user, "You cannot add yourself as a friend.", true);
         }
 
+        User friendToBe = userService.findByEmail(targetEmail);
+        if (friendToBe == null || friendToBe.getAccount() == null) {
+            log.error("This user does not exist or has no account yet.");
+            return buildContactPage(model, user, "This user does not exist or has no account yet.", true);
+        }
+
+        if (friendsService.isAlreadyFriend(user.getId(), friendToBe.getId())) {
+            log.error("This user is already your friend.");
+            return buildContactPage(model, user, "This user is already your friend.", true);
+        }
+
+        Friends friends = new Friends();
+        friends.setUser(user);
+        friends.setFriend(friendToBe);
+
+        friendsService.save(friends);
+        log.info("Added a new friend.");
+
+        return buildContactPage(model, user, null, false);
+    }
+
+    private String buildContactPage(Model model, User user, String errorMessage, boolean showModal) {
         List<User> myFriends = friendsService.findAllMyFriends(user.getId());
-        model.addAttribute("friendList", myFriends);
+        model.addAttribute("friendList", myFriends == null ? new ArrayList<>() : myFriends);
         model.addAttribute("newFriend", new FriendDto());
-        model.addAttribute("success", success);
         model.addAttribute("errorMessage", errorMessage);
         model.addAttribute("showModal", showModal);
         return "contact";

@@ -11,6 +11,10 @@
             html, body {
                 height: 100%;
             }
+
+            input::placeholder {
+                font-family: FontAwesome, Arial;
+            }
         </style>
     </head>
     <body class="d-flex align-items-center justify-content-center">
@@ -31,10 +35,10 @@
                                 You have been logged out
                             </div>
                             <div class="form-group">
-                                <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email" class="form-control" id="inputEmail" placeholder="&#xf0e0; &nbsp;&nbsp;Email" style="font-family:Arial, FontAwesome" minlength="6" maxlength="30" required>
+                                <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email" class="form-control" id="inputEmail" placeholder="&#xf0e0; &nbsp;&nbsp;Email" minlength="6" maxlength="30" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="&#xf069; &nbsp;&nbsp;Password" style="font-family:Arial, FontAwesome" minlength="6" maxlength="30" required>
+                                <input type="password" name="password" class="form-control" id="inputPassword" placeholder="&#xf084; Password" minlength="6" maxlength="30" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </form>

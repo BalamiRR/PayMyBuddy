@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/transfer")
-public class Transfer {
+public class TransferController {
 
     @GetMapping
-    public String home() {
+    public String transferPage() {
         return "transfer";
     }
 

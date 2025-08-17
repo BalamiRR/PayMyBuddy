@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
+        <title>Transfer</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
+            .nav-link {
+                color: black !important;
+                transition: color 0.2s ease;
+            }
+            .nav-link:hover {
+                color: #007bff !important;
+            }
+            .nav-link.active {
+                color: black !important;
+                border-bottom: 2px solid #007bff;
+                background-color: transparent !important;
+            }
+        </style>
+    </head>
+    <body>
+    <div th:replace="~{navbar :: topbar}"></div>
+    <div class="container mt-5 border p-4 rounded shadow-sm">
+        <!-- Form: Transfer -->
+        <form th:action="@{/transfer}" method="post" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="relation" class="form-label">Relation</label>
+                <select class="form-select" id="relation" name="relation" required>
+                    <option selected disabled>Select a friend</option>
+                    <option th:each="rel : ${relations}" th:value="${rel}" th:text="${rel}"></option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description" name="description" placeholder="Description" required>
+            </div>
+            <div class="col-md-2">
+                <label for="amount" class="form-label">Montant (€)</label>
+                <input type="number" class="form-control" id="amount" name="amount" min="0" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Payer</button>
+            </div>
+        </form>
+
+        <!-- Table: Transactions -->
+        <div class="mt-4">
+            <h5>Mes Transactions</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Relations</th>
+                    <th>Description</th>
+                    <th>Montant</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="txn : ${transactions}">
+                    <td th:text="${txn.relation}">Laure-Anne</td>
+                    <td th:text="${txn.description}">Restaurant</td>
+                    <td th:text="${txn.amount + '€'}">10€</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+</html>

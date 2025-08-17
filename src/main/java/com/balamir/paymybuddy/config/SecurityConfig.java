@@ -29,7 +29,7 @@ public class SecurityConfig {
                     .loginProcessingUrl("/login")
                     .usernameParameter("email")
                     .passwordParameter("password")
-                    .defaultSuccessUrl("/home", true)
+                    .defaultSuccessUrl("/transfer", true)
                     .failureUrl("/login?error=true")
                     .permitAll()
             )

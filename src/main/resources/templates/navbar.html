@@ -26,16 +26,16 @@
 </head>
   <body class="d-flex flex-column min-vh-100 p-3 mb-2 bg-light text-black">
     <div class="container" th:fragment="topbar">
-      <nav style="clear: right;">
-        <div class="d-flex align-items-center">
-          <a class="navbar-brand fw-bold me-auto" style="color:black; font-weight:bold;" th:href="@{/home}">Pay My Buddy</a>
+      <nav class="d-flex justify-content-between align-items-center border-bottom py-2 px-3">
+        <div>
+          <img th:src="@{/images/Logo.png}" alt="Pay My Buddy Logo" style="height: 50px;">
         </div>
-        <div class="d-flex justify-content-end align-items-center gap-2 border-bottom py-2">
-          <a th:href="@{/transfer}" th:class="${active=='transfer.html'?'nav-item nav-link active':'nav-item nav-link'}">Transfer</a>
-          <a th:href="@{/profile}" th:class="${active=='profile.html'?'nav-item nav-link active':'nav-item nav-link'}">Profile</a>
-          <a th:href="@{/contact}" th:class="${active=='contact.html'?'nav-item nav-link active':'nav-item nav-link'}">Contact</a>
-          <form th:action="@{/logout}" method="POST" class="m-0">
-            <button id="logout-btn" type="submit" class="btn btn-primary text-white font-weight-bold">Log Out</button>
+        <div class="d-flex align-items-center gap-3">
+          <a th:href="@{/transfer}" th:class="${active=='transfer.html' ? 'nav-link active' : 'nav-link'}">Transfer</a>
+          <a th:href="@{/profile}" th:class="${active=='profile.html' ? 'nav-link active' : 'nav-link'}">Profile</a>
+          <a th:href="@{/contact}" th:class="${active=='contact.html' ? 'nav-link active' : 'nav-link'}">Contact</a>
+          <form th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="btn btn-primary text-white font-weight-bold">Log Out</button>
           </form>
         </div>
       </nav>

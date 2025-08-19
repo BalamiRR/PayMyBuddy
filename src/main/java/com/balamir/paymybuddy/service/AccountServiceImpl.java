@@ -22,11 +22,12 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Account addMoney(int userId, BigDecimal amount, String currency) {
+    public void addMoney(int userId, BigDecimal amount, String currency) {
         Account account = accountRepository.findByUserId(userId);
         if (account == null) {
             throw new RuntimeException("Account not found for user id: " + userId);
         }
+
         if (account.getBalance() == null) {
             account.setBalance(BigDecimal.ZERO);
         }
@@ -36,7 +37,7 @@ public class AccountServiceImpl implements AccountService{
         }
 
         account.setBalance(account.getBalance().add(amount));
-        return accountRepository.save(account);
+        accountRepository.save(account);
     }
 
 }

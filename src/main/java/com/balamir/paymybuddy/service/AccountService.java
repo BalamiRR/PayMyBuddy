@@ -5,5 +5,5 @@ import java.math.BigDecimal;
 
 public interface AccountService {
     Account findByUserId(int id);
-    Account addMoney(int userId, BigDecimal amount, String currency);
+    void addMoney(int userId, BigDecimal amount, String currency);
 }

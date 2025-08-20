@@ -35,13 +35,15 @@
 
         <!-- Table: Transfer -->
         <div class="container mt-5 border p-4 rounded shadow-sm">
-            <form th:action="@{/transfer}" method="post" class="row g-3 align-items-end">
+            <form th:action="@{/transfer/send-money}" method="post" class="row g-3 align-items-end" onsubmit="return validateForm()">
                 <div class="col-md-4">
                     <h5>Send Money</h5>
                     <label for="relation" class="form-label">To</label>
                     <select class="form-select form-select-sm" id="relation" name="relation" required>
-                        <option selected disabled>Select a friend</option>
-                        <option th:each="friend : ${friendList}" th:text="${friend.userName}" th:value="${friend.id}"></option>
+                        <option value="" selected disabled>Select a friend</option>
+                        <option th:each="friend : ${friendList}"
+                                th:text="${friend.userName}"
+                                th:value="${friend.id}"></option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -85,9 +87,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="txn : ${transactions}">
-                        <td th:text="${txn.relation}">Laure-Anne</td>
-                        <td th:text="${txn.description}">Restaurant</td>
-                        <td th:text="${txn.amount + '€'}">10€</td>
+                        <td th:text="${txn.otherPartyName}">Name</td>
+                        <td th:text="${txn.description}">Description</td>
+                        <td th:text="${txn.amount + '€'}">Amount</td>
                     </tr>
                     </tbody>
                 </table>
@@ -98,6 +100,16 @@
                 event.preventDefault();
                 document.getElementById("currency").value = value;
                 document.getElementById("currencyBtn").innerText = label;
+            }
+
+            function validateForm() {
+                const relation = document.getElementById("relation");
+                if (relation.value === "" || relation.value === null) {
+                    alert("Select a friend");
+                    relation.focus();
+                    return false;
+                }
+                return true;
             }
         </script>
         <footer class="mt-auto text-center">

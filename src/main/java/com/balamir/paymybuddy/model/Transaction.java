@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -22,11 +21,13 @@ public class Transaction {
     @GeneratedValue
     private Integer id;
 
-    @Column(name = "sender")
-    private Integer sender;
+    @ManyToOne
+    @JoinColumn(name = "sender", nullable = false)
+    private User sender;
 
-    @Column(name = "receiver")
-    private Integer receiver;
+    @ManyToOne
+    @JoinColumn(name = "receiver", nullable = false)
+    private User receiver;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -52,5 +53,15 @@ public class Transaction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = Instant.now();
+    }
 
 }

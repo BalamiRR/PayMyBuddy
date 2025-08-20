@@ -1,0 +1,64 @@
+package com.balamir.paymybuddy.service;
+
+import com.balamir.paymybuddy.model.Account;
+import com.balamir.paymybuddy.model.Transaction;
+import com.balamir.paymybuddy.model.TransactionStatus;
+import com.balamir.paymybuddy.model.User;
+import com.balamir.paymybuddy.repository.AccountRepository;
+import com.balamir.paymybuddy.repository.TransactionRepository;
+import com.balamir.paymybuddy.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.List;
+
+@RequiredArgsConstructor
+@Transactional
+@Service
+public class TransactionServiceImpl implements TransactionService {
+    private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
+
+    @Override
+    public void sendMoney(User sender, User receiver, BigDecimal amount, String currency, String description) {
+        Account senderAccount = accountRepository.findByUserId(sender.getId());
+        Account receiverAccount = accountRepository.findByUserId(receiver.getId());
+
+        if (senderAccount.getBalance().compareTo(amount) < 0) {
+            throw new RuntimeException("Insufficient balance !");
+        }
+
+        if ("USD".equalsIgnoreCase(currency)) {
+            amount = amount.divide(BigDecimal.valueOf(1.17), 2, RoundingMode.HALF_UP);
+        }
+
+        senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
+        receiverAccount.setBalance(receiverAccount.getBalance().add(amount));
+
+        Transaction txn = new Transaction();
+        txn.setSender(sender);
+        txn.setReceiver(receiver);
+        txn.setAmount(amount);
+        txn.setCreatedAt(Instant.now());
+        txn.setDescription(description);
+        txn.setStatus(TransactionStatus.SUCCESS);
+        txn.setAccount(senderAccount);
+
+        transactionRepository.save(txn);
+        accountRepository.save(senderAccount);
+        accountRepository.save(receiverAccount);
+    }
+
+    @Override
+    public List<Transaction> getMyTransactions(int userId) {
+        User me = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return transactionRepository.findBySenderOrReceiver(me, me);
+    }
+
+}

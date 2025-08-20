@@ -32,7 +32,6 @@
                 <h5>My Balance</h5>
                 <p th:text="${balance != null ? balance + ' €' : '0 €'}">0 €</p>
                 <p th:text="${usdBalanceFormatted}">+ 0 USD</p>
-
                 <div style="margin-top: 15px; font-size: 14px;">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#addMoneyModal" style="color: #007bff; text-decoration: none;">
                         Add money
@@ -44,7 +43,7 @@
             <div class="modal fade" id="addMoneyModal" tabindex="-1" aria-labelledby="addMoneyModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{/transfer}" method="post">
+                        <form th:action="@{/transfer/add-money}" method="post">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addMoneyModalLabel">Add Money</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

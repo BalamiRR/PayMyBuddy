@@ -86,10 +86,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="txn : ${transactions}">
-                        <td th:text="${txn.otherPartyName}">Name</td>
-                        <td th:text="${txn.description}">Description</td>
-                        <td th:text="${txn.amount + '€'}">Amount</td>
+                    <tr th:each="transaction : ${transactions}">
+                        <td>
+                            <span th:if="${transaction.direction == 'OUTGOING'}" style="color:red; font-weight:bold; font-size:1.5em; margin-right:5px;">&#8592;</span>
+                            <span th:if="${transaction.direction == 'INCOMING'}" style="color:green; font-weight:bold; font-size:1.5em; margin-right:5px;">&#8594;</span>
+                            <span th:text="${transaction.otherPartyName}"></span>
+                        </td>
+                        <td th:text="${transaction.description}">Description</td>
+                        <td th:text="${transaction.amount + '€'}">Amount</td>
                     </tr>
                     </tbody>
                 </table>

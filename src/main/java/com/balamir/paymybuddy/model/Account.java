@@ -41,7 +41,7 @@ public class Account {
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @OneToMany
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Transaction> transactions = new ArrayList<>();
 }
 

@@ -46,8 +46,8 @@ public class TransferController {
                 "+" + balance.multiply(BigDecimal.valueOf(1.17)).setScale(2, RoundingMode.HALF_UP) + " USD");
         model.addAttribute("friendList", myFriends);
 
-        List<Transaction> txns = transactionService.getMyTransactions(user.getId());
-        List<TransactionDto> txnDTOs = txns.stream()
+        List<Transaction> transaction = transactionService.getMyTransactions(user.getId());
+        List<TransactionDto> txnDTOs = transaction.stream()
                 .map(t -> new TransactionDto(t, user.getId()))
                 .collect(Collectors.toList());
         model.addAttribute("transactions", txnDTOs);
@@ -57,18 +57,14 @@ public class TransferController {
     @PostMapping("/add-money")
     public String addMoney(@RequestParam("amount") BigDecimal amount, @RequestParam("currency") String currency, Principal principal) {
         String email = principal.getName();
-        com.balamir.paymybuddy.model.User user = userService.findByEmail(email);
+        User user = userService.findByEmail(email);
         accountService.addMoney(user.getId(), amount, currency);
         return "redirect:/transfer";
     }
 
     @PostMapping("/send-money")
-    public String sendMoney(@RequestParam("relation") int receiverId,
-                            @RequestParam("sendingAmount") BigDecimal amount,
-                            @RequestParam("currency") String currency,
-                            @RequestParam("description") String description,
-                            Principal principal) {
-
+    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount,
+                            @RequestParam("currency") String currency, @RequestParam("description") String description, Principal principal) {
         User sender = userService.findByEmail(principal.getName());
         User receiver = userService.getById(receiverId);
         transactionService.sendMoney(sender, receiver, amount, currency, description);

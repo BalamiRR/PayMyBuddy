@@ -30,7 +30,7 @@ public class FriendController {
     }
 
     @PostMapping
-    public String addFriend(Authentication authentication, @ModelAttribute("newFriend") FriendDto friendDto, Model model) {
+    public String addFriend(Authentication authentication, FriendDto friendDto, Model model) {
         User user = userService.findByEmail(authentication.getName());
         String targetEmail = friendDto.getFriendEmail();
 

@@ -40,16 +40,16 @@ public class TransactionServiceImpl implements TransactionService {
         senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
         receiverAccount.setBalance(receiverAccount.getBalance().add(amount));
 
-        Transaction txn = new Transaction();
-        txn.setSender(sender);
-        txn.setReceiver(receiver);
-        txn.setAmount(amount);
-        txn.setCreatedAt(Instant.now());
-        txn.setDescription(description);
-        txn.setStatus(TransactionStatus.SUCCESS);
-        txn.setAccount(senderAccount);
+        Transaction transaction = new Transaction();
+        transaction.setSender(sender);
+        transaction.setReceiver(receiver);
+        transaction.setAmount(amount);
+        transaction.setCreatedAt(Instant.now());
+        transaction.setDescription(description);
+        transaction.setStatus(TransactionStatus.SUCCESS);
+        transaction.setAccount(senderAccount);
 
-        transactionRepository.save(txn);
+        transactionRepository.save(transaction);
         accountRepository.save(senderAccount);
         accountRepository.save(receiverAccount);
     }

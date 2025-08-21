@@ -14,17 +14,20 @@ public class TransactionDto {
     private BigDecimal amount;
     private String description;
     private Instant createdAt;
+    private String direction; // "OUTGOING", "INCOMING" arrows
 
-    public TransactionDto(Transaction txn, Integer currentUserId) {
-        this.id = txn.getId();
 
-        if (txn.getReceiver().getId().equals(currentUserId)) {
-            this.otherPartyName = txn.getSender().getUserName();
+    public TransactionDto(Transaction transaction, Integer currentUserId) {
+        this.id = transaction.getId();
+
+        if (transaction.getReceiver().getId().equals(currentUserId)) {
+            this.otherPartyName = transaction.getSender().getUserName();
         } else {
-            this.otherPartyName = txn.getReceiver().getUserName();
+            this.otherPartyName = transaction.getReceiver().getUserName();
         }
-        this.amount = txn.getAmount();
-        this.description = txn.getDescription();
-        this.createdAt = txn.getCreatedAt();
+        this.amount = transaction.getAmount();
+        this.description = transaction.getDescription();
+        this.createdAt = transaction.getCreatedAt();
+        this.direction = transaction.getSender().getId() == currentUserId ? "OUTGOING" : "INCOMING";
     }
 }

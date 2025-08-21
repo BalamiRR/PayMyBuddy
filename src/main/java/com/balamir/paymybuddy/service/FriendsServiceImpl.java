@@ -29,9 +29,7 @@ public class FriendsServiceImpl implements FriendsService {
 
         if(user.isPresent()){
             for(Friends friend : friends){
-                if(friend.getFriend().getId() == id){
-                    friendSet.add(friend.getUser());
-                } else if (friend.getUser().getId() == id) {
+                if (friend.getUser().getId() == id) {
                     friendSet.add(friend.getFriend());
                 }
             }

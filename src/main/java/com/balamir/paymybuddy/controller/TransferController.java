@@ -47,10 +47,10 @@ public class TransferController {
         model.addAttribute("friendList", myFriends);
 
         List<Transaction> transaction = transactionService.getMyTransactions(user.getId());
-        List<TransactionDto> txnDTOs = transaction.stream()
+        List<TransactionDto> transactionDTOs = transaction.stream()
                 .map(t -> new TransactionDto(t, user.getId()))
                 .collect(Collectors.toList());
-        model.addAttribute("transactions", txnDTOs);
+        model.addAttribute("transactions", transactionDTOs);
         return "transfer";
     }
 
@@ -59,6 +59,7 @@ public class TransferController {
         String email = principal.getName();
         User user = userService.findByEmail(email);
         accountService.addMoney(user.getId(), amount, currency);
+        log.info("User {} added {} {} to his/her account", user.getUserName(), amount, currency);
         return "redirect:/transfer";
     }
 
@@ -68,6 +69,7 @@ public class TransferController {
         User sender = userService.findByEmail(principal.getName());
         User receiver = userService.getById(receiverId);
         transactionService.sendMoney(sender, receiver, amount, currency, description);
+        log.info("Money sent successfully from {} to {}", sender.getEmail(), receiver.getEmail());
         return "redirect:/transfer";
     }
 

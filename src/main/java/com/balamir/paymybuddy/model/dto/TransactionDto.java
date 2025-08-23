@@ -10,20 +10,18 @@ import java.time.Instant;
 @Setter
 public class TransactionDto {
     private Integer id;
-    private String otherPartyName;
+    private String userName;
     private BigDecimal amount;
     private String description;
     private Instant createdAt;
-    private String direction; // "OUTGOING", "INCOMING" arrows
-
+    private String direction; // OUTGOING and INCOMING arrows
 
     public TransactionDto(Transaction transaction, Integer currentUserId) {
         this.id = transaction.getId();
-
         if (transaction.getReceiver().getId().equals(currentUserId)) {
-            this.otherPartyName = transaction.getSender().getUserName();
+            this.userName = transaction.getSender().getUserName();
         } else {
-            this.otherPartyName = transaction.getReceiver().getUserName();
+            this.userName = transaction.getReceiver().getUserName();
         }
         this.amount = transaction.getAmount();
         this.description = transaction.getDescription();

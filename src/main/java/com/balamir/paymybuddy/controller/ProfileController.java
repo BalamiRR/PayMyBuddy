@@ -8,7 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,6 +27,14 @@ public class ProfileController {
         User user = userService.findByEmail(authentication.getName());
         model.addAttribute("userInfo", user);
         return "profile";
+    }
+
+    @PostMapping("/update-password")
+    public String updatePassword(@RequestParam("newPassword") String newPassword, Principal principal){
+        String username =  principal.getName();
+        User user = userService.findByEmail(username);
+        userService.updatePassword(user.getId(), newPassword);
+        return "redirect:/profile?success";
     }
 
 }

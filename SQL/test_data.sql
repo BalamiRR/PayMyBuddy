@@ -1,10 +1,18 @@
 -- Adding data for User table 
+-- "aaa@gmail.com: " + encoder.encode("123456789ab")
+-- "bbb@email.com: " + encoder.encode("123456cr")
+-- "ccc@gmail.com: " + encoder.encode("123123messi"
 INSERT INTO `user` VALUES
-	(1, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'fuatk@gmail.com', '123456789ab', 'fuatk'),
-	(2, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'ronaldo@gmail.com', '123456cr', 'cristiano'),
-    (3, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'messi@gmail.com', '123123messi', 'messi');
+	(1, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'aaa@gmail.com', '$2a$10$JdTi7Db4fCBzJdVIfE3nK.MvWfIGPW7zuetTf4re9KO6nsIULhlzG', 'maradona'),
+	(2, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'bbb@email.com', '$2a$10$N3nmrIbqZ7ufMpdKjuhO8eSMQGKfDDA2wIoHPsR8e6nPmfYyeC0Ki', 'cristiano'),
+    (3, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'ccc@gmail.com', '$2a$10$rqMYZJpl07JLBdMlfzJRR.Z0TML7jNSXcK7uLHE1hfGuWg/oMPbJe', 'messii'),
+	(4, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'ddd@gmail.com', '$2a$10$JdTi7Db4fCBzJdVIfE3nK.MvWfIGPW7zuetTf4re9KO6nsIULhlzG', 'makalele'),
+	(5, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'eee@email.com', '$2a$10$N3nmrIbqZ7ufMpdKjuhO8eSMQGKfDDA2wIoHPsR8e6nPmfYyeC0Ki', 'alonso'),
+    (6, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'fff@gmail.com', '$2a$10$rqMYZJpl07JLBdMlfzJRR.Z0TML7jNSXcK7uLHE1hfGuWg/oMPbJe', 'sanchez');
 
 SELECT * FROM user;
+SELECT id, email, user_name FROM user;
+SELECT id, email, userName FROM user;
 -- ================================================
 -- Adding data for Account
 --

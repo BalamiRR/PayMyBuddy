@@ -37,6 +37,9 @@
         <div class="container mt-5">
             <div class="card shadow-sm">
                 <div class="card-body">
+                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                        <span th:text="${errorMessage}"></span>
+                    </div>
                     <form th:action="@{/transfer/send-money}" method="post" class="row g-3 align-items-end" onsubmit="return validateForm()">
                         <div class="col-md-4">
                             <h5>Send Money</h5>

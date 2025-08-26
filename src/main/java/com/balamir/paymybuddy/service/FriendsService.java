@@ -10,5 +10,4 @@ public interface FriendsService {
     List<User> findAllMyFriends(int id);
     void deleteFriendship(int userId, int friendId);
     boolean isAlreadyFriend(int userId, int friendId);
-
 }

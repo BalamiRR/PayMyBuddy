@@ -61,11 +61,16 @@ public class TransferController {
     }
 
     @PostMapping("/send-money")
-    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount, @RequestParam("description") String description, Principal principal) {
+    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount, @RequestParam("description") String description, Principal principal, Model model) {
         User sender = userService.findByEmail(principal.getName());
         User receiver = userService.getById(receiverId);
-        transactionService.sendMoney(sender, receiver, amount, description);
-        log.info("Money sent successfully from {} to {}", sender.getEmail(), receiver.getEmail());
+        try {
+            transactionService.sendMoney(sender, receiver, amount, description);
+            log.info("Money sent successfully from {} to {}", sender.getEmail(), receiver.getEmail());
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return transferPage(((Authentication) principal), model);
+        }
         return "redirect:/transfer";
     }
 

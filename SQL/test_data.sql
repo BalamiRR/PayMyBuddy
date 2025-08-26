@@ -1,14 +1,17 @@
--- Adding data for User table 
+-- Adding data for User table
 -- "aaa@gmail.com: " + encoder.encode("123456789ab")
 -- "bbb@email.com: " + encoder.encode("123456cr")
 -- "ccc@gmail.com: " + encoder.encode("123123messi"
+
+USE `payMyBuddy`;
 INSERT INTO `user` VALUES
-	(1, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'aaa@gmail.com', '$2a$10$JdTi7Db4fCBzJdVIfE3nK.MvWfIGPW7zuetTf4re9KO6nsIULhlzG', 'maradona'),
-	(2, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'bbb@email.com', '$2a$10$N3nmrIbqZ7ufMpdKjuhO8eSMQGKfDDA2wIoHPsR8e6nPmfYyeC0Ki', 'cristiano'),
-    (3, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'ccc@gmail.com', '$2a$10$rqMYZJpl07JLBdMlfzJRR.Z0TML7jNSXcK7uLHE1hfGuWg/oMPbJe', 'messii'),
-	(4, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'ddd@gmail.com', '$2a$10$JdTi7Db4fCBzJdVIfE3nK.MvWfIGPW7zuetTf4re9KO6nsIULhlzG', 'makalele'),
-	(5, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'eee@email.com', '$2a$10$N3nmrIbqZ7ufMpdKjuhO8eSMQGKfDDA2wIoHPsR8e6nPmfYyeC0Ki', 'alonso'),
-    (6, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'fff@gmail.com', '$2a$10$rqMYZJpl07JLBdMlfzJRR.Z0TML7jNSXcK7uLHE1hfGuWg/oMPbJe', 'sanchez');
+	(1, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'ibrahimovic@gmail.com', '$2a$10$xysGwpZ5dITn6Cp05gM.ZOukR8FKtC0acpfgEWz7JehXxMzNLKLX6', 'ibrahimovic'),
+	(2, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'cristiano_ronaldo@gmail.com', '$2a$10$NtBprXvh7tazYzjmn0d0I.qVkGexDGHPQGyLCPGW4sAoyRqrC94Ju', 'cristiano_ronaldo'),
+    (3, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'lionel_messi@gmail.com', '$2a$10$pPngu5hQgs3bBZCdss4m5OcVxpA9fv3UomG0OFY4e7CFfxDnwFtim', 'lionel_messi'),
+	(4, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'rivaldo@gmail.com', '$2a$10$PEh.x9J1TBHxh2s9hQTjlev8QT8htj8e9zDB04JZpTcb5QQ7hWCa.', 'rivaldo'),
+	(5, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'haaland@gmail.com', '$2a$10$gUnxvG61SNeSHuZSPQ2xf.x3.m.MLUk0P8s6ITXGOvcdlmY.RqF2K', 'haaland'),
+    (6, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'fuatkara@gmail.com', '$2a$10$XlIhubJRyuRpYi9Jfs2Gb.fOmaiBAc6Kp93OGrXyH516lmXnqOCzG', 'fuatkara');
+
 
 SELECT * FROM user;
 SELECT id, email, user_name FROM user;
@@ -17,9 +20,9 @@ SELECT id, email, userName FROM user;
 -- Adding data for Account
 --
 INSERT INTO `account` VALUE
-	(4, '2021-11-03 09:17:13.581000', '2021-11-03 09:17:13.121000', '105.90', 1),
-	(5, '2021-11-03 09:17:13.581000', '2021-11-03 09:17:13.121000', '99.15', 2),
-	(6, '2021-11-03 09:17:13.581000', '2021-11-03 09:17:13.121000', '67.12', 3);
+	(4, '2021-11-03 09:17:13.581000', '2021-11-03 09:17:13.121000', '1050', 1),
+	(5, '2021-11-03 09:17:13.581000', '2021-11-03 09:17:13.121000', '990', 2),
+	(6, '2021-11-03 09:17:13.581000', '2021-11-03 09:17:13.121000', '900', 3);
 
 SELECT * FROM account;
 
@@ -43,5 +46,5 @@ INSERT INTO `transaction` VALUES
     (12, '2021-11-03 10:16:14.846000', '2021-11-03 09:17:13.846000', 175.38, 0.05, 'OK', 'FAILED', 4, 6, 4),
     (13, '2021-11-03 10:16:14.652000', '2021-11-03 09:17:13.652000', 150.12, 0.05, 'Debt', 'PROCESSING', 5, 4, 5),
 	(14, '2021-11-03 10:16:14.789000', '2021-11-03 09:17:13.789000', 185, 0.05, 'Gift', 'SUCCESS', 4, 6, 6);
-    
+
 SELECT * FROM transaction;

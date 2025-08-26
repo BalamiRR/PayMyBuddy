@@ -55,3 +55,9 @@ CREATE TABLE `transaction` (
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_transaction_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+DROP TABLE IF EXISTS `transaction`;
+DROP TABLE IF EXISTS `friends`;
+DROP TABLE IF EXISTS `account`;
+DROP TABLE IF EXISTS `user`;

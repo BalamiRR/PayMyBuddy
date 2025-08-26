@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,8 +41,6 @@ public class TransferController {
         BigDecimal balance = account != null && account.getBalance() != null ? account.getBalance() : BigDecimal.ZERO;
 
         model.addAttribute("balance", balance);
-        model.addAttribute("usdBalanceFormatted",
-                "+" + balance.multiply(BigDecimal.valueOf(1.17)).setScale(2, RoundingMode.HALF_UP) + " USD");
         model.addAttribute("friendList", myFriends);
 
         List<Transaction> transaction = transactionService.getMyTransactions(user.getId());
@@ -64,11 +61,10 @@ public class TransferController {
     }
 
     @PostMapping("/send-money")
-    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount,
-                            @RequestParam("currency") String currency, @RequestParam("description") String description, Principal principal) {
+    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount, @RequestParam("description") String description, Principal principal) {
         User sender = userService.findByEmail(principal.getName());
         User receiver = userService.getById(receiverId);
-        transactionService.sendMoney(sender, receiver, amount, currency, description);
+        transactionService.sendMoney(sender, receiver, amount, description);
         log.info("Money sent successfully from {} to {}", sender.getEmail(), receiver.getEmail());
         return "redirect:/transfer";
     }

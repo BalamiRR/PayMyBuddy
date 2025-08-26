@@ -34,69 +34,60 @@
         <div th:replace="~{account :: balanceSection}"></div>
 
         <!-- Table: Transfer -->
-        <div class="container mt-5 border p-4 rounded shadow-sm">
-            <form th:action="@{/transfer/send-money}" method="post" class="row g-3 align-items-end" onsubmit="return validateForm()">
-                <div class="col-md-4">
-                    <h5>Send Money</h5>
-                    <label for="relation" class="form-label">To</label>
-                    <select class="form-select form-select-sm" id="relation" name="relation" required>
-                        <option value="" selected disabled>Select a friend</option>
-                        <option th:each="friend : ${friendList}"
-                                th:text="${friend.userName}"
-                                th:value="${friend.id}"></option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Description" required>
-                </div>
+        <div class="container mt-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form th:action="@{/transfer/send-money}" method="post" class="row g-3 align-items-end" onsubmit="return validateForm()">
+                        <div class="col-md-4">
+                            <h5>Send Money</h5>
+                            <label for="relation" class="form-label">To</label>
+                            <select class="form-select form-select-sm" id="relation" name="relation" required>
+                                <option value="" selected disabled>Select a friend</option>
+                                <option th:each="friend : ${friendList}"
+                                        th:text="${friend.userName}"
+                                        th:value="${friend.id}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="Description" required>
+                        </div>
 
-                <div class="col-md-2">
-                    <div class="input-group input-group-sm">
-                        <button id="currencyBtn"
-                                class="btn btn-outline-secondary btn-sm dropdown-toggle w-100 text-start"
-                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            € EUR
-                        </button>
-                        <ul class="dropdown-menu w-100">
-                            <li><a class="dropdown-item" href="#" onclick="setCurrency(event,'EUR','€ EUR')">€ EUR</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="setCurrency(event,'USD','$ USD')">$ USD</a></li>
-                        </ul>
-                        <input type="hidden" id="currency" name="currency" value="EUR">
-                    </div>
-                </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control form-control-sm" id="sendingAmount" name="sendingAmount" placeholder="Amount € EUR" min="1" required>
+                        </div>
 
-                <div class="col-md-2">
-                    <input type="number" class="form-control form-control-sm" id="sendingAmount" name="sendingAmount" placeholder="Amount" min="1" required>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary w-100">Pay</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+        </div>
 
-                <div class="col-md-1">
-                    <button type="submit" class="btn btn-primary w-100">Pay</button>
+        <!-- My Transactions Section -->
+        <div class="container mt-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>My Transactions</h5>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Friends</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="transaction : ${transactions}">
+                            <td th:text="${transaction.userName}">Username</td>
+                            <td class="text-center" th:text="${transaction.description}">Description</td>
+                            <td class="text-end fw-bold" th:classappend="${transaction.direction == 'OUTGOING'} ? 'text-danger' : 'text-success'">
+                                <span th:text="${transaction.direction == 'OUTGOING' ? '-' + transaction.amount + ' €' : '+' + transaction.amount + ' €'}"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-            </form>
-
-            <!-- Table: Transactions -->
-            <div class="mt-4">
-                <h5>My Transactions</h5>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Friends</th>
-                        <th>Description</th>
-                        <th>Amount</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="transaction : ${transactions}">
-                        <td>
-                            <span th:if="${transaction.direction == 'OUTGOING'}" style="color:red; font-weight:bold; font-size:1.5em; margin-right:5px;">&#8592;</span>
-                            <span th:if="${transaction.direction == 'INCOMING'}" style="color:green; font-weight:bold; font-size:1.5em; margin-right:5px;">&#8594;</span>
-                            <span th:text="${transaction.userName}"></span>
-                        </td>
-                        <td th:text="${transaction.description}">Description</td>
-                        <td th:text="${transaction.amount + '€'}">Amount</td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
         <script>

@@ -12,9 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -25,16 +26,12 @@ public class TransactionServiceImpl implements TransactionService {
     private final UserRepository userRepository;
 
     @Override
-    public void sendMoney(User sender, User receiver, BigDecimal amount, String currency, String description) {
+    public void sendMoney(User sender, User receiver, BigDecimal amount, String description) {
         Account senderAccount = accountRepository.findByUserId(sender.getId());
         Account receiverAccount = accountRepository.findByUserId(receiver.getId());
 
         if (senderAccount.getBalance().compareTo(amount) < 0) {
             throw new RuntimeException("Insufficient balance !");
-        }
-
-        if ("USD".equalsIgnoreCase(currency)) {
-            amount = amount.divide(BigDecimal.valueOf(1.17), 2, RoundingMode.HALF_UP);
         }
 
         senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
@@ -58,7 +55,9 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> getMyTransactions(int userId) {
         User me = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return transactionRepository.findBySenderOrReceiver(me, me);
+        return transactionRepository.findBySenderOrReceiver(me, me)
+                .stream().sorted(Comparator.comparing(Transaction::getCreatedAt).reversed())
+                .collect(Collectors.toList());
     }
 
 }

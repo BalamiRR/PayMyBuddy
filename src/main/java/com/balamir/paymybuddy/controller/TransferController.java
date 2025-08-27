@@ -52,11 +52,11 @@ public class TransferController {
     }
 
     @PostMapping("/add-money")
-    public String addMoney(@RequestParam("amount") BigDecimal amount, @RequestParam("currency") String currency, Principal principal) {
+    public String addMoney(@RequestParam("amount") BigDecimal amount, Principal principal) {
         String email = principal.getName();
         User user = userService.findByEmail(email);
-        accountService.addMoney(user.getId(), amount, currency);
-        log.info("User {} added {} {} to his/her account", user.getUserName(), amount, currency);
+        accountService.addMoney(user.getId(), amount);
+        log.info("User {} added {} to his/her account", user.getUserName(), amount);
         return "redirect:/transfer";
     }
 

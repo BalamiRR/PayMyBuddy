@@ -39,9 +39,7 @@ class FriendsServiceImplTest {
     @Test
     void testSave() {
         Friends friends = new Friends();
-
         friendsService.save(friends);
-
         verify(friendsRepository, times(1)).save(any(Friends.class));
     }
 

@@ -51,15 +51,6 @@ public class TransferController {
         return "transfer";
     }
 
-    @PostMapping("/add-money")
-    public String addMoney(@RequestParam("amount") BigDecimal amount, Principal principal) {
-        String email = principal.getName();
-        User user = userService.findByEmail(email);
-        accountService.addMoney(user.getId(), amount);
-        log.info("User {} added {} to his/her account", user.getUserName(), amount);
-        return "redirect:/transfer";
-    }
-
     @PostMapping("/send-money")
     public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount, @RequestParam("description") String description, Principal principal, Model model) {
         User sender = userService.findByEmail(principal.getName());

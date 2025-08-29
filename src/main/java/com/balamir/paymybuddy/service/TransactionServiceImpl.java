@@ -30,8 +30,15 @@ public class TransactionServiceImpl implements TransactionService {
         Account senderAccount = accountRepository.findByUserId(sender.getId());
         Account receiverAccount = accountRepository.findByUserId(receiver.getId());
 
+        if (senderAccount == null) {
+            throw new RuntimeException("Sender has no account!");
+        }
+        if (receiverAccount == null) {
+            throw new RuntimeException("Receiver has no account!");
+        }
+
         if (senderAccount.getBalance().compareTo(amount) < 0) {
-            throw new RuntimeException("Insufficient balance !");
+            throw new RuntimeException("Insufficient balance!");
         }
 
         senderAccount.setBalance(senderAccount.getBalance().subtract(amount));

@@ -9,20 +9,19 @@ import com.balamir.paymybuddy.repository.AccountRepository;
 import com.balamir.paymybuddy.repository.TransactionRepository;
 import com.balamir.paymybuddy.repository.UserRepository;
 import com.balamir.paymybuddy.service.TransactionService;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.*;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@Transactional
 public class TransactionServiceImplTest {
     @Autowired
     private TransactionService transactionService;
@@ -39,17 +38,17 @@ public class TransactionServiceImplTest {
     private User sender;
     private User receiver;
 
-    @BeforeAll
+    @BeforeEach
     void setUp() {
         sender = new User();
         sender.setUserName("Alice");
-        sender.setEmail("alice@example.com");
+        sender.setEmail(UUID.randomUUID() + "@example.com");
         sender.setPassword("123");
         sender = userRepository.save(sender);
 
         receiver = new User();
         receiver.setUserName("Bob");
-        receiver.setEmail("bob@example.com");
+        receiver.setEmail(UUID.randomUUID() + "@example.com");
         receiver.setPassword("123");
         receiver = userRepository.save(receiver);
 
@@ -69,7 +68,7 @@ public class TransactionServiceImplTest {
         accountRepository.save(receiverAccount);
     }
 
-    @AfterAll
+    @AfterEach
     void cleanUp() {
         transactionRepository.deleteAll();
         accountRepository.deleteAll();
@@ -99,13 +98,17 @@ public class TransactionServiceImplTest {
         BigDecimal largeAmount = new BigDecimal("5000.00");
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 transactionService.sendMoney(sender, receiver, largeAmount, "Too large payment"));
-        assertEquals("Insufficient balance !", exception.getMessage());
+        assertEquals("Insufficient balance!", exception.getMessage());
     }
 
     @Test
     @Order(3)
     void testGetMyTransactionsDirection() {
+        transactionService.sendMoney(sender, receiver, new BigDecimal("100.00"), "Test payment");
+
         List<Transaction> senderTransactions = transactionService.getMyTransactions(sender.getId());
+        assertFalse(senderTransactions.isEmpty());
+
         TransactionDto dto = new TransactionDto(senderTransactions.get(0), sender.getId());
 
         assertEquals("OUTGOING", dto.getDirection());

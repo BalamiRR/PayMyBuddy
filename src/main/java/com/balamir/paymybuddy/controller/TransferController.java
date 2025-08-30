@@ -59,6 +59,7 @@ public class TransferController {
             transactionService.sendMoney(sender, receiver, amount, description);
             log.info("Money sent successfully from {} to {}", sender.getEmail(), receiver.getEmail());
         } catch (RuntimeException e) {
+            log.error("Error sending money from {} to {}", sender.getEmail(), receiver.getEmail());
             model.addAttribute("errorMessage", e.getMessage());
             return transferPage(((Authentication) principal), model);
         }

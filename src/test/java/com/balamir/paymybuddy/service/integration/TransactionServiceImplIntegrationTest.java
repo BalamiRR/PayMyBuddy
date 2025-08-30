@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @Transactional
-public class TransactionServiceImplTest {
+public class TransactionServiceImplIntegrationTest {
     @Autowired
     private TransactionService transactionService;
 

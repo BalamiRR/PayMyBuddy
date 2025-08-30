@@ -18,7 +18,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 @Transactional
-public class AccountServiceImplTest {
+public class AccountServiceImplIntegrationTest {
     @Autowired
     private AccountService accountService;
 

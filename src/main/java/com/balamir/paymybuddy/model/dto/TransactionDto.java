@@ -26,6 +26,6 @@ public class TransactionDto {
         this.amount = transaction.getAmount();
         this.description = transaction.getDescription();
         this.createdAt = transaction.getCreatedAt();
-        this.direction = transaction.getSender().getId() == currentUserId ? "OUTGOING" : "INCOMING";
+        this.direction = transaction.getSender().getId().equals(currentUserId) ? "OUTGOING" : "INCOMING";
     }
 }

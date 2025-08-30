@@ -9,13 +9,13 @@ import com.balamir.paymybuddy.repository.TransactionRepository;
 import com.balamir.paymybuddy.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -30,15 +30,11 @@ public class TransactionServiceImpl implements TransactionService {
         Account senderAccount = accountRepository.findByUserId(sender.getId());
         Account receiverAccount = accountRepository.findByUserId(receiver.getId());
 
-        if (senderAccount == null) {
-            throw new RuntimeException("Sender has no account!");
+        if (senderAccount == null || receiverAccount == null) {
+            throw new IllegalArgumentException("Sender or receiver has no account!");
         }
-        if (receiverAccount == null) {
-            throw new RuntimeException("Receiver has no account!");
-        }
-
-        if (senderAccount.getBalance().compareTo(amount) < 0) {
-            throw new RuntimeException("Insufficient balance!");
+        if (senderAccount.getBalance().compareTo(amount) <= 0) {
+            throw new IllegalArgumentException("Insufficient balance!");
         }
 
         senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
@@ -61,10 +57,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getMyTransactions(int userId) {
         User me = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));   //check this
         return transactionRepository.findBySenderOrReceiver(me, me)
-                .stream().sorted(Comparator.comparing(Transaction::getCreatedAt).reversed())
-                .collect(Collectors.toList());
+                .stream()
+                .sorted(Comparator.comparing(Transaction::getCreatedAt).reversed())
+                .toList();
     }
 
 }

@@ -33,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (senderAccount == null || receiverAccount == null) {
             throw new IllegalArgumentException("Sender or receiver has no account!");
         }
-        if (senderAccount.getBalance().compareTo(amount) <= 0) {
+        if (senderAccount.getBalance().compareTo(amount) < 0) {
             throw new IllegalArgumentException("Insufficient balance!");
         }
 
@@ -57,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getMyTransactions(int userId) {
         User me = userRepository.findById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));   //check this
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return transactionRepository.findBySenderOrReceiver(me, me)
                 .stream()
                 .sorted(Comparator.comparing(Transaction::getCreatedAt).reversed())

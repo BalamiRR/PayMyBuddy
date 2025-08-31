@@ -37,10 +37,10 @@ public class Transaction {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "amount")
+    @Column(name = "amount", precision = 19, scale = 2)
     private BigDecimal amount;
 
-    @Column(name = "charge")
+    @Column(name = "charge", precision = 19, scale = 2)
     private BigDecimal charge;
 
     @Column(name = "description")

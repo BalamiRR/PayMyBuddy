@@ -13,6 +13,9 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -23,6 +26,14 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class TransactionServiceImplIntegrationTest {
+    @DynamicPropertySource
+    static void datasourceProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", () -> "jdbc:mysql://localhost:3306/paymybuddy");
+        registry.add("spring.datasource.username", () -> "root");
+        registry.add("spring.datasource.password", () -> "rootroot");
+        registry.add("spring.datasource.driver-class-name", () -> "com.mysql.cj.jdbc.Driver");
+    }
+
     @Autowired
     private TransactionService transactionService;
 

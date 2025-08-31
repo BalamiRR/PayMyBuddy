@@ -38,7 +38,7 @@ public class Account {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "balance")
+    @Column(name = "balance", precision = 19, scale = 2)
     private BigDecimal balance;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)

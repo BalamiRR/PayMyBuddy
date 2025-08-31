@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
@@ -33,17 +34,20 @@ public class TransactionServiceImpl implements TransactionService {
         if (senderAccount == null || receiverAccount == null) {
             throw new IllegalArgumentException("Sender or receiver has no account!");
         }
-        if (senderAccount.getBalance().compareTo(amount) < 0) {
+
+        BigDecimal normalizedAmount = amount.setScale(2, RoundingMode.HALF_UP);
+
+        if (senderAccount.getBalance().compareTo(normalizedAmount ) < 0) {
             throw new IllegalArgumentException("Insufficient balance!");
         }
 
-        senderAccount.setBalance(senderAccount.getBalance().subtract(amount));
-        receiverAccount.setBalance(receiverAccount.getBalance().add(amount));
+        senderAccount.setBalance(senderAccount.getBalance().subtract(normalizedAmount ));
+        receiverAccount.setBalance(receiverAccount.getBalance().add(normalizedAmount ));
 
         Transaction transaction = new Transaction();
         transaction.setSender(sender);
         transaction.setReceiver(receiver);
-        transaction.setAmount(amount);
+        transaction.setAmount(normalizedAmount );
         transaction.setCreatedAt(Instant.now());
         transaction.setDescription(description);
         transaction.setStatus(TransactionStatus.SUCCESS);

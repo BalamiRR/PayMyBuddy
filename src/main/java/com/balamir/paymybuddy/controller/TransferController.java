@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
@@ -52,7 +51,8 @@ public class TransferController {
     }
 
     @PostMapping("/send-money")
-    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount, @RequestParam("description") String description, Principal principal, Model model) {
+    public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount,
+                            @RequestParam("description") String description, Principal principal, Model model) {
         User sender = userService.findByEmail(principal.getName());
         User receiver = userService.getById(receiverId);
         try {

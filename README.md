@@ -13,7 +13,7 @@
 ### application.properties
 ```
 spring.application.name=demo
-spring.datasource.url=jdbc:mysql://localhost:3306/paymybuddy
+spring.datasource.url={DB_URL}
 spring.datasource.username=${DB_USERNAME}
 spring.datasource.password=${DB_PASSWORD}
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver

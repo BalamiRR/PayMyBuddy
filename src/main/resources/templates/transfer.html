@@ -84,8 +84,12 @@
                         <tr th:each="transaction : ${transactions}">
                             <td th:text="${transaction.userName}">Username</td>
                             <td class="text-center" th:text="${transaction.description}">Description</td>
-                            <td class="text-end fw-bold" th:classappend="${transaction.direction == 'OUTGOING'} ? 'text-danger' : 'text-success'">
-                                <span th:text="${transaction.direction == 'OUTGOING' ? '-' + #numbers.formatDecimal(transaction.amount, 1, 'COMMA', 2, 'POINT') + ' €' : #numbers.formatDecimal(transaction.amount, 1, 'COMMA', 2, 'POINT') + ' €'}"></span>
+                            <td class="text-end fw-bold"
+                                th:classappend="${transaction.direction == 'OUTGOING'} ? 'text-danger' : 'text-success'">
+                                <span th:text="${transaction.direction == 'OUTGOING'
+                                                 ? '-' + #numbers.formatDecimal(transaction.amount, 1, 'COMMA', 2, 'POINT') + ' €'
+                                                 : #numbers.formatDecimal(transaction.netAmount, 1, 'COMMA', 2, 'POINT') + ' €'}">
+                                </span>
                             </td>
                         </tr>
                         </tbody>

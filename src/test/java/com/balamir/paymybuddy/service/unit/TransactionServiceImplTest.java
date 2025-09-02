@@ -70,8 +70,8 @@ public class TransactionServiceImplTest {
 
         transactionServiceImpl.sendMoney(sender, receiver, amount, description);
 
-        assertEquals(BigDecimal.valueOf(70), senderAccount.getBalance());
-        assertEquals(BigDecimal.valueOf(80), receiverAccount.getBalance());
+        assertEquals(new BigDecimal("70.00"), senderAccount.getBalance());
+        assertEquals(new BigDecimal("80.00"), receiverAccount.getBalance());
 
         verify(transactionRepository).save(any(Transaction.class));
 

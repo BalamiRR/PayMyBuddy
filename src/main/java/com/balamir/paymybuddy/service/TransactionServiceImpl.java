@@ -41,8 +41,12 @@ public class TransactionServiceImpl implements TransactionService {
             throw new IllegalArgumentException("Insufficient balance!");
         }
 
+        BigDecimal feeRate = new BigDecimal("0.005");
+        BigDecimal fee = normalizedAmount.multiply(feeRate).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal netAmount = normalizedAmount.subtract(fee);
+
         senderAccount.setBalance(senderAccount.getBalance().subtract(normalizedAmount ));
-        receiverAccount.setBalance(receiverAccount.getBalance().add(normalizedAmount ));
+        receiverAccount.setBalance(receiverAccount.getBalance().add(netAmount ));
 
         Transaction transaction = new Transaction();
         transaction.setSender(sender);

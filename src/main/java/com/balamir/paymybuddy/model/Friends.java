@@ -1,6 +1,5 @@
 package com.balamir.paymybuddy.model;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

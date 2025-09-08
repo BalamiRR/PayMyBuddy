@@ -19,7 +19,6 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
-
     private final UserService userService;
 
     @GetMapping
@@ -36,5 +35,4 @@ public class ProfileController {
         userService.updatePassword(user.getId(), newPassword);
         return "redirect:/profile?success";
     }
-
 }

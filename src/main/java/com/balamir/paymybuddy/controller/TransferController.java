@@ -65,6 +65,4 @@ public class TransferController {
         }
         return "redirect:/transfer";
     }
-
-
 }

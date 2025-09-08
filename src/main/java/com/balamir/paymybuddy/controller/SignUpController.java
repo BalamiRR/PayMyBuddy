@@ -45,5 +45,4 @@ public class SignUpController {
         log.info("Sign-up successful for user: {}", email);
         return "redirect:/login";
     }
-
 }

@@ -81,7 +81,7 @@ For example, we have a unit test for the sendMoney functionality to ensure that 
 * The receiver's balance increases by the transfer amount.
 * A transaction record is saved with the correct amount and description.
 * Both sender and receiver accounts are updated in the database.
-* 
+
 This ensures that the core logic of transferring funds behaves as expected without affecting the database directly (using mocked repositories).
 
 ```

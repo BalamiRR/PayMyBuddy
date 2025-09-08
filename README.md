@@ -31,7 +31,7 @@ After logging in, users can send money to their friends.
 On the profile page, users can:
 * View their registered information,
 * Update their password
-<img width="650" height="188" alt="Contact" src="https://github.com/user-attachments/assets/1fc3f9b5-a2ff-43f7-b23d-bf2860b27ace" />
+<img width="653" height="350" alt="Profile" src="https://github.com/user-attachments/assets/d135f737-e962-4eb0-8eed-6b9311bc11c1" />
 
 ### 📞 Contact (Friends Management)
 The contact page is used to manage friends inside the application.

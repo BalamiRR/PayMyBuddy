@@ -1,7 +1,7 @@
 -- Adding data for User table
--- "aaa@gmail.com: " + encoder.encode("123456789ab")
--- "bbb@email.com: " + encoder.encode("123456cr")
--- "ccc@gmail.com: " + encoder.encode("123123messi"
+--	(1, '2020-08-10 11:11:10.311000', '2020-08-10 11:11:10.311000', 'charles@gmail.com', '$2a$10$cQS32vwpB4kILA37gg3GSOCb7PuVL25sOAhk.yJGobMEsD75mr8Iy', 'charles'),
+--	(2, '2022-06-12 13:41:30.312000', '2022-06-12 13:41:30.312000', 'gabriel@gmail.com', '$2a$10$u8r5JascYdo/C3Ma8Gevn.gi90Yj1TsxoXXCGvMwccfsnJwDAPXmK', 'gabriel'),
+--    (3, '2023-09-13 14:21:50.311000', '2023-09-13 14:21:50.311000', 'alexandre@gmail.com', '$2a$10$QiS1uhFleCBBNge3cXmzs.s5mYVa9tRQYj/cX17ZBEYy0c7tHaGTS', 'alexandre');
 
 USE `payMyBuddy`;
 INSERT INTO `user` VALUES

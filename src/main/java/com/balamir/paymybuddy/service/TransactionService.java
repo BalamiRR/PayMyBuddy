@@ -7,6 +7,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransactionService {
-    void sendMoney(User sender, User receiver, BigDecimal amount, String description);
+    void sendMoney(User sender, User receiver, BigDecimal amount, String currency, String description);
     List<Transaction> getMyTransactions(int userId);
 }

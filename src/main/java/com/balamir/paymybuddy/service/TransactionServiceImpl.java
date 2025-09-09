@@ -27,7 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final UserRepository userRepository;
 
     @Override
-    public void sendMoney(User sender, User receiver, BigDecimal amount, String description) {
+    public void sendMoney(User sender, User receiver, BigDecimal amount, String currency, String description) {
         Account senderAccount = accountRepository.findByUserId(sender.getId());
         Account receiverAccount = accountRepository.findByUserId(receiver.getId());
 
@@ -39,6 +39,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (senderAccount.getBalance().compareTo(normalizedAmount ) < 0) {
             throw new IllegalArgumentException("Insufficient balance!");
+        }
+
+        if ("USD".equalsIgnoreCase(currency)) {
+            normalizedAmount = amount.divide(BigDecimal.valueOf(1.17), 2, RoundingMode.HALF_UP);
         }
 
         senderAccount.setBalance(senderAccount.getBalance().subtract(normalizedAmount ));

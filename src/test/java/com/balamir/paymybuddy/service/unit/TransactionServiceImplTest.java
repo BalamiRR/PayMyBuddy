@@ -68,7 +68,7 @@ public class TransactionServiceImplTest {
         when(accountRepository.findByUserId(sender.getId())).thenReturn(senderAccount);
         when(accountRepository.findByUserId(receiver.getId())).thenReturn(receiverAccount);
 
-        transactionServiceImpl.sendMoney(sender, receiver, amount, description);
+        transactionServiceImpl.sendMoney(sender, receiver, amount, description, "Euro");
 
         assertEquals(new BigDecimal("70.00"), senderAccount.getBalance());
         assertEquals(new BigDecimal("80.00"), receiverAccount.getBalance());

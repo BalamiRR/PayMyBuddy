@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +41,8 @@ public class TransferController {
         BigDecimal balance = account != null && account.getBalance() != null ? account.getBalance() : BigDecimal.ZERO;
 
         model.addAttribute("balance", balance);
+        model.addAttribute("usdBalanceFormatted",
+                "+" + balance.multiply(BigDecimal.valueOf(1.17)).setScale(2, RoundingMode.HALF_UP) + " USD");
         model.addAttribute("friendList", myFriends);
 
         List<Transaction> transaction = transactionService.getMyTransactions(user.getId());
@@ -50,13 +53,22 @@ public class TransferController {
         return "transfer";
     }
 
+    @PostMapping("/add-money")
+    public String addMoney(@RequestParam("amount") BigDecimal amount, @RequestParam("currency") String currency, Principal principal) {
+        String email = principal.getName();
+        User user = userService.findByEmail(email);
+        accountService.addMoney(user.getId(), amount, currency);
+        log.info("User {} added {} {} to his/her account", user.getUserName(), amount, currency);
+        return "redirect:/transfer";
+    }
+
     @PostMapping("/send-money")
     public String sendMoney(@RequestParam("relation") int receiverId, @RequestParam("sendingAmount") BigDecimal amount,
-                            @RequestParam("description") String description, Principal principal, Model model) {
+                            @RequestParam("currency") String currency, @RequestParam("description") String description, Principal principal, Model model) {
         User sender = userService.findByEmail(principal.getName());
         User receiver = userService.getById(receiverId);
         try {
-            transactionService.sendMoney(sender, receiver, amount, description);
+            transactionService.sendMoney(sender, receiver, amount, currency, description);
             log.info("Money sent successfully from {} to {}", sender.getEmail(), receiver.getEmail());
         } catch (RuntimeException e) {
             log.error("Error sending money from {} to {}", sender.getEmail(), receiver.getEmail());

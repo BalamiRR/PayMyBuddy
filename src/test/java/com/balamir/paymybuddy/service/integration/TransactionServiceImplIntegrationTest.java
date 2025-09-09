@@ -90,7 +90,7 @@ public class TransactionServiceImplIntegrationTest {
     @Order(1)
     void testSendMoneySuccess() {
         BigDecimal amount = new BigDecimal("200.00");
-        transactionService.sendMoney(sender, receiver, amount, "Rent payment");
+        transactionService.sendMoney(sender, receiver, amount, "Euro", "Rent payment");
 
         Account senderAccount = accountRepository.findByUserId(sender.getId());
         Account receiverAccount = accountRepository.findByUserId(receiver.getId());
@@ -108,14 +108,14 @@ public class TransactionServiceImplIntegrationTest {
     void testSendMoneyInsufficientBalance() {
         BigDecimal largeAmount = new BigDecimal("5000.00");
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
-                transactionService.sendMoney(sender, receiver, largeAmount, "Too large payment"));
+                transactionService.sendMoney(sender, receiver, largeAmount, "Euro", "Too large payment"));
         assertEquals("Insufficient balance!", exception.getMessage());
     }
 
     @Test
     @Order(3)
     void testGetMyTransactionsDirection() {
-        transactionService.sendMoney(sender, receiver, new BigDecimal("100.00"), "Test payment");
+        transactionService.sendMoney(sender, receiver, new BigDecimal("100.00"), "Euro", "Test payment");
 
         List<Transaction> senderTransactions = transactionService.getMyTransactions(sender.getId());
         assertFalse(senderTransactions.isEmpty());

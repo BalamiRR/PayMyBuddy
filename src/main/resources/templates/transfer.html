@@ -56,6 +56,21 @@
                         </div>
 
                         <div class="col-md-2">
+                            <div class="input-group input-group-sm">
+                                <button id="currencyBtn"
+                                        class="btn btn-outline-secondary btn-sm dropdown-toggle w-100 text-start"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    € EUR
+                                </button>
+                                <ul class="dropdown-menu w-100">
+                                    <li><a class="dropdown-item" href="#" onclick="setCurrency(event,'EUR','€ EUR')">€ EUR</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="setCurrency(event,'USD','$ USD')">$ USD</a></li>
+                                </ul>
+                                <input type="hidden" id="currency" name="currency" value="EUR">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
                             <input type="number" step="0.01" class="form-control form-control-sm" id="sendingAmount" name="sendingAmount" placeholder="Amount € EUR" min="5.00" required>
                         </div>
 
